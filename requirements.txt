@@ -1,0 +1,13 @@
+# Core libraries for both applications
+opencv-python
+numpy
+keras
+tensorflow
+Pillow
+
+# Specific dependencies for the FastAPI web app
+fastapi
+uvicorn
+python-multipart
+websockets
+Jinja2
