@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-Time Mood Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #232526, #414345);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 30px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        #video-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        #video {
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .emotion-box {
+            margin-top: 25px;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 60%;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        .emotion-box p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .label {
+            font-weight: 600;
+            color: #00e6e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Mood Detection & ChatBot</h1>
+        <div id="video-container">
+            <img id="video" src="{{ url_for('video_feed') }}" width="640" height="480">
+        </div>
+        <div class="emotion-box">
+            <p><span class="label">Detected Emotion:</span> <span id="emotion">Loading...</span></p>
+            <p><span class="label">ChatBot Response:</span> <span id="chatbot">Please wait...</span></p>
+        </div>
+    </div>
+
+    <script>
+        async function fetchResponse() {
+            const res = await fetch('/get_response');
+            const data = await res.json();
+            document.getElementById('emotion').innerText = data.emotion || "None";
+            document.getElementById('chatbot').innerText = data.response || "Generating response...";
+        }
+        setInterval(fetchResponse, 2000); // every 2 seconds
+    </script>
+</body>
+</html>
